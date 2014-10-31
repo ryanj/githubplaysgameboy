@@ -5,19 +5,20 @@ var path = require('path')
   , io = require('socket.io').listen(server)
   , fs = require('fs');
 
-var config = require('./config.json');
-var allowedInputs = (config.allowed_inputs || ["start", "select", "left", "right", "up", "down", "a", "b"]);
-var rom = __dirname + '/' + (config.rom || 'rom.gb');
+var cc = require('config-multipaas');
+var config = cc().addFile('config.json');
 
-server.listen(process.env.PORT || (config.port || 3000));
+var allowedInputs = config.get('allowed_inputs');
+var rom = __dirname + '/' + config.get('rom');
 
+server.listen(config.get('PORT'), config.get('IP'));
 
 app.set('view engine', 'ejs');
 app.get('/', function(req, res) {
-  res.render('index', config);
+  res.render('index', {title: config.get('title'), url: config.get('HOSTNAME')});
 });
 app.get('/master', function(req, res) {
-  res.render('master', config);
+  res.render('master', {title: config.get('title'), url: config.get('HOSTNAME')});
 });
 app.use(express.static(path.join(__dirname, 'public')));
 

@@ -5,9 +5,11 @@
   "scripts": {
     "start": "node app.js"
   },
+  "main": "app.js",
   "dependencies": {
-    "express": "3.4.8",
+    "config-multipaas": "0.0.5",
     "ejs": "*",
+    "express": "3.4.8",
     "socket.io": "*"
   }
 }
